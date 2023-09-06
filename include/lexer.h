@@ -2,7 +2,7 @@
 #include <vector>
 
 using namespace std;
-// Define token types
+
 enum TokenType
 {
     KEYWORD,
@@ -12,11 +12,29 @@ enum TokenType
     PUNCTUATOR
 };
 
-// Define a token structure
 struct Token
 {
     TokenType type;
     std::string value;
+    int line;
+    int column;
+};
+
+class Lexer
+{
+private:
+    int current_line = 0;
+    int current_column = 0;
+
+public:
+    vector<Token> tokenize(const string &input);
+
+private:
+    bool isWhitespace(char c);
+    bool isOperator(char c);
+    bool isPunctuator(char c);
+    bool isKeyword(const string &token);
+    bool isNumber(const string &token);
 };
 
 const vector<string> KEYWORDS = {
@@ -46,5 +64,3 @@ const vector<string> KEYWORDS = {
     "goto",
     "sizeof",
 };
-
-vector<Token> tokenize(const string &input);

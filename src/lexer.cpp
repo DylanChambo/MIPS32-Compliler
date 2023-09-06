@@ -10,14 +10,14 @@ using namespace std;
 
 bool isWhitespace(char c);
 // Function to tokenize C code
-vector<Token> tokenize(const string &code)
+vector<Token> Lexer::tokenize(const string &code)
 {
     vector<Token> tokens;
     string currentToken;
 
     for (char c : code)
     {
-        if (isWhitespace(c))
+        if (this->isWhitespace(c))
         {
             if (!currentToken.empty())
             {
@@ -25,13 +25,12 @@ vector<Token> tokenize(const string &code)
                 token.value = currentToken;
 
                 // Determine token type
-                if (find(KEYWORDS.begin(), KEYWORDS.end(), currentToken) != KEYWORDS.end())
+                if (this->isKeyword(currentToken))
                 {
                     token.type = KEYWORD;
                 }
-                else if (currentToken.find_first_not_of("0123456789") == string::npos)
+                else if (this->isNumber(currentToken))
                 {
-                    // Assume it's a number
                     token.type = NUMBER;
                 }
                 else
@@ -55,7 +54,7 @@ vector<Token> tokenize(const string &code)
                 Token token;
                 token.value = currentToken;
                 token.type = IDENTIFIER; // Assume it's an identifier
-                if (currentToken.find_first_not_of("0123456789") == string::npos)
+                if (this->isNumber(currentToken))
                 {
                     // Assume it's a number
                     token.type = NUMBER;
@@ -64,9 +63,8 @@ vector<Token> tokenize(const string &code)
                 tokens.push_back(token);
                 currentToken.clear();
             }
-
             // Handle operators
-            if (c == '=' || c == '<' || c == '>' || c == '+' || c == '-')
+            if (this->isOperator(c))
             {
                 currentToken = c;
                 Token token;
@@ -76,7 +74,8 @@ vector<Token> tokenize(const string &code)
                 tokens.push_back(token);
                 currentToken.clear();
             }
-            else if (c == ';' || c == '{' || c == '}' || c == '(' || c == ')')
+            // Handle Punctuators
+            else if (this->isPunctuator(c))
             {
                 currentToken = c;
                 Token token;
@@ -91,7 +90,27 @@ vector<Token> tokenize(const string &code)
     return tokens;
 }
 
-bool isWhitespace(char c)
+bool Lexer::isWhitespace(char c)
 {
     return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+}
+
+bool Lexer::isOperator(char c)
+{
+    return (c == '=' || c == '<' || c == '>' || c == '+' || c == '-');
+}
+
+bool Lexer::isPunctuator(char c)
+{
+    return (c == ';' || c == '{' || c == '}' || c == '(' || c == ')');
+}
+
+bool Lexer::isNumber(const string &token)
+{
+    return (token.find_first_not_of("0123456789") == string::npos);
+}
+
+bool Lexer::isKeyword(const string &token)
+{
+    return (find(KEYWORDS.begin(), KEYWORDS.end(), token) != KEYWORDS.end());
 }

@@ -7,10 +7,21 @@
 
 using namespace std;
 
+void compileFile();
+
 int main(int argc, char **argv)
 {
+    compileFile();
+    return 0;
+}
+
+void compileFile()
+{
     string inputCode = "int main() { if (x > 0) { x = x - 1; } return 0; }";
-    vector<Token> tokens = tokenize(inputCode);
+
+    Lexer *lexer = new Lexer();
+
+    vector<Token> tokens = lexer->tokenize(inputCode);
 
     // Print the tokens
     for (const Token &token : tokens)
@@ -39,6 +50,4 @@ int main(int argc, char **argv)
         }
         cout << ", Value: " << token.value << endl;
     }
-
-    return 0;
 }
