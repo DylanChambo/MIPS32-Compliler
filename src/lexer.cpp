@@ -102,7 +102,7 @@ bool Lexer::isOperator(char c)
 
 bool Lexer::isPunctuator(char c)
 {
-    return (c == ';' || c == '{' || c == '}' || c == '(' || c == ')');
+    return (c == ';' || c == '{' || c == '}' || c == '(' || c == ')' || c == ',');
 }
 
 bool Lexer::isNumber(const string &token)

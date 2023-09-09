@@ -1,4 +1,5 @@
-#include <lexer.h>
+#include "lexer.h"
+#include "parser.h"
 
 #include <iostream>
 #include <string>
@@ -50,4 +51,10 @@ void compileFile()
         }
         cout << ", Value: " << token.value << endl;
     }
+
+    Parser parser(tokens);
+    // Create an example AST
+    ASTNode *root = parser.parse();
+
+    parser.generateCode(root);
 }

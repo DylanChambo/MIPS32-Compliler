@@ -1,3 +1,6 @@
+#ifndef LEXER_H
+#define LEXER_H
+
 #include <string>
 #include <vector>
 
@@ -9,23 +12,18 @@ enum TokenType
     IDENTIFIER,
     OPERATOR,
     NUMBER,
-    PUNCTUATOR
+    PUNCTUATOR,
+    SEMICOLON,
 };
 
 struct Token
 {
     TokenType type;
-    std::string value;
-    int line;
-    int column;
+    string value;
 };
 
 class Lexer
 {
-private:
-    int current_line = 0;
-    int current_column = 0;
-
 public:
     vector<Token> tokenize(const string &input);
 
@@ -64,3 +62,5 @@ const vector<string> KEYWORDS = {
     "goto",
     "sizeof",
 };
+
+#endif
