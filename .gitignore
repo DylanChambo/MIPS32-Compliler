@@ -1,3 +1,5 @@
 .exe
 /build
 /obj
+/src/parser.tab.*
+/src/lexer.yy.*

@@ -6,8 +6,8 @@ INC_PATH := include
 
 # tool macros
 CXX ?= g++
-CFLAGS := -I./$(INC_PATH)
-COBJFLAGS := $(CFLAGS) -c
+CFLAGS := -I./$(INC_PATH) -I./$(SRC_PATH) -lfl -ly
+COBJFLAGS := $(CFLAGS) -c 
 
 # compile macros
 TARGET_NAME := main
@@ -24,10 +24,13 @@ DEP := $(foreach x, $(INC_PATH), $(wildcard $(addprefix $(x)/*,.h*)))
 # clean files list
 DISTCLEAN_LIST := $(OBJ)
 CLEAN_LIST := $(TARGET) \
-			  $(DISTCLEAN_LIST)
+			  $(DISTCLEAN_LIST) \
+			  $(SRC_PATH)/parser.tab.cpp \
+			  $(SRC_PATH)/parser.tab.hpp \
+			  $(SRC_PATH)/lexer.yy.cpp
 
 # default rule
-default: makedir all
+default: makedir parser all
 
 # non-phony targets
 $(TARGET): $(OBJ)
@@ -36,7 +39,6 @@ $(TARGET): $(OBJ)
 $(OBJ_PATH)/%.o: $(SRC_PATH)/%.c* $(DEP)
 	$(CXX) $(COBJFLAGS) -o $@ $<
 
-
 # phony rules
 .PHONY: makedir
 makedir:
@@ -44,6 +46,11 @@ makedir:
 
 .PHONY: all
 all: $(TARGET)
+
+.PHONY: parser
+parser : src/parser.y src/lexer.l
+	bison -t -d src/parser.y -o src/parser.tab.cpp
+	flex -o src/lexer.yy.cpp src/lexer.l
 
 .PHONY: clean
 clean:
