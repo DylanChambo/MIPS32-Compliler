@@ -85,7 +85,7 @@ alphanumUnderscore [A-Za-z0-9_]
 
 .  {
 	// yytext represents the current characters being lexed
-	fprintf(stderr, "Illegal character with code %d on line #%d\n", *yytext, lineno);
+	cerr << "Illegal character with code " << *yytext << " on line #" << lineNum << endl;
 	exit(1);
 }
 

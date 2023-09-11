@@ -1,16 +1,23 @@
+%code requires
+{
+#include "type.h"
+}
+
 %{
+
 #include <iostream>
+#include <string>
 using namespace std;
 
 int lineNum = 1;
 extern char* yytext; // The lexeme of the current token.
 extern int yylex();
-void yyerror(char *msg);
+void yyerror(string msg);
 %}
 
 %require "3.2"
 
-%token INDENTIFIER // An identifier. Starting with a letter or underscore, followed by letters, numbers or underscores.
+%token IDENTIFIER // An identifier. Starting with a letter or underscore, followed by letters, numbers or underscores.
 %token NUMBER // A number. A sequence of digits.
 %token STRING // A string. A sequence of characters surrounded by double quotes.
 %token CHARACTER // A character. A single character surrounded by single quotes.
@@ -64,20 +71,32 @@ void yyerror(char *msg);
 	char character;
 	char* text;
 	int location;
+    Type* type;
+    Dimensions* dimensions;
 }
 
-%type <name> INDENTIFIER;
+%type <name> IDENTIFIER;
 %type <value> NUMBER;
 %type <character> CHARACTER;
 %type <text> STRING;
-%%
-
-program: declaration_list
-;
+%type <type> baseType type;
+%type <dimensions> dimensionsList;
 
 %%
 
-void yyerror(char *msg) {
+type : baseType { $$ = $1; }
+     | baseType dimensionsList { $1->setDimensions($2); $$ = $1; }
+
+baseType : INT { $$ = new Type(TYPE_INT); };
+         | CHAR { $$ = new Type(TYPE_CHAR); };
+         ;
+
+dimensionsList: dimensionsList LBRACK NUMBER RBRACK { $1->addDimension($3); $$ = $1; };
+              | %empty { $$ = new Dimensions(); };
+
+%%
+
+void yyerror(string msg) {
 	cerr << "Syntax error on line " << lineNum << " : " << msg << endl;
     cerr << "Last token was \"" << yytext << "\"" << endl;
 	exit(1);
