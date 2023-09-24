@@ -104,7 +104,7 @@ vector<Token> Lexer::tokenize()
             if (peek() == '/')
             {
                 // Consume the rest of the line as it is a comment
-                while (peek() != '\n' || peek() != '\0')
+                while (peek() != '\n' && peek() != '\0')
                 {
                     consume();
                 }
