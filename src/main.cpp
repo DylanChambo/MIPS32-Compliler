@@ -19,35 +19,14 @@ void compileFile()
 {
     string inputCode = "int main() { if (x > 0) { x = x - 1; } return 0; }";
 
-    Lexer *lexer = new Lexer();
+    Lexer *lexer = new Lexer(inputCode);
 
-    vector<Token> tokens = lexer->tokenize(inputCode);
+    vector<Token> tokens = lexer->tokenize();
 
     // Print the tokens
     for (const Token &token : tokens)
     {
-        cout << "Type: ";
-        switch (token.type)
-        {
-        case KEYWORD:
-            cout << "Keyword";
-            break;
-        case IDENTIFIER:
-            cout << "Identifier";
-            break;
-        case NUMBER:
-            cout << "Number";
-            break;
-        case OPERATOR:
-            cout << "Operator";
-            break;
-        case PUNCTUATOR:
-            cout << "Punctuator";
-            break;
-        default:
-            cout << "Unknown";
-            break;
-        }
+        cout << "Type: " << token.type << endl;
         cout << ", Value: " << token.value << endl;
     }
 }
