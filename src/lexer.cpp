@@ -102,8 +102,9 @@ vector<Token> Lexer::tokenize()
         else if (peek() == '/')
         {
             consume();
-            if (peek() == '/')
+            if (peek() == '/') // Single line comment
             {
+                consume();
                 // Consume the rest of the line as it is a comment
                 while (peek() != '\n' && peek() != '\0')
                 {
@@ -114,6 +115,20 @@ vector<Token> Lexer::tokenize()
                     m_line += 1;
                     m_char = 1;
                 }
+            }
+            else if (peek() == '*') /* Multi line comment */
+            {
+                consume();
+                while ((peek() != '*' && peek(1) != '/') && peek() != '\0')
+                {
+                    if (consume() == '\n')
+                    {
+                        m_line += 1;
+                        m_char = 1;
+                    }
+                }
+                consume();
+                consume();
             }
             else
             {
