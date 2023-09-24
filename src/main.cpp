@@ -1,26 +1,36 @@
 #include <lexer.h>
 
 #include <iostream>
+#include <fstream>
 #include <string>
 #include <vector>
 #include <cctype>
 
 using namespace std;
 
-void compileFile();
+void compileFile(string filename);
 
 int main(int argc, char **argv)
 {
-    compileFile();
+    if (argc != 2)
+    {
+        cerr << "Usage: " << argv[0] << " <filename>" << endl;
+        return EXIT_FAILURE;
+    }
+
+    compileFile(argv[1]);
+
     return 0;
 }
 
-void compileFile()
+void compileFile(string filename)
 {
-    string inputCode = "int main() { if (x > 0) { x = x - 1; } return 0; }";
+    // Read the file into memory
+    ifstream inputFile(filename);
+    std::string contents;
+    getline(inputFile, contents, '\0');
 
-    Lexer *lexer = new Lexer(inputCode);
-
+    Lexer *lexer = new Lexer(contents);
     vector<Token> tokens = lexer->tokenize();
 
     // Print the tokens
