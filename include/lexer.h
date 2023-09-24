@@ -64,6 +64,7 @@ class Lexer
 private:
     std::string m_code;
     int m_position = 0;
+    int m_char = 1;
     int m_line = 1;
 
 public:

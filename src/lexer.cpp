@@ -11,7 +11,6 @@ using namespace std;
 Lexer::Lexer(const string &code)
 {
     m_code = code;
-    m_line = 1;
 }
 
 // Function to tokenize C code
@@ -19,7 +18,9 @@ vector<Token> Lexer::tokenize()
 {
     vector<Token> tokens;
     string currentToken;
+    m_position = 0;
     m_line = 1;
+    m_char = 1;
 
     while (peek() != '\0')
     {
@@ -109,7 +110,10 @@ vector<Token> Lexer::tokenize()
                     consume();
                 }
                 if (consume() == '\n')
+                {
                     m_line += 1;
+                    m_char = 1;
+                }
             }
             else
             {
@@ -225,12 +229,15 @@ vector<Token> Lexer::tokenize()
         else if (isspace(peek()))
         {
             if (consume() == '\n')
-
+            {
                 m_line += 1;
+                m_char = 1;
+            }
         }
         else
         {
-            cerr << "Error parsing input code at position " << m_position << endl;
+            cerr << "Error parsing code: ";
+            cerr << "Unexpected char \'" << peek() << "\' at line " << m_line << ", position " << m_char << "!" << endl;
             exit(EXIT_FAILURE);
         }
     }
@@ -249,5 +256,6 @@ char Lexer::peek(int offset)
 
 char Lexer::consume()
 {
+    m_char += 1;
     return m_code[m_position++];
 }
