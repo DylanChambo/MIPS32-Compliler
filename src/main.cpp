@@ -26,7 +26,12 @@ void compileFile()
     // Print the tokens
     for (const Token &token : tokens)
     {
-        cout << "Type: " << token.type << endl;
-        cout << ", Value: " << token.value << endl;
+        switch (token.type)
+        {
+            TOKEN_TYPE_LIST(TOKEN_TYPE_ENUM_CASE)
+        }
+        if (token.value != "")
+            cout << ", Value: " << token.value;
+        cout << endl;
     }
 }

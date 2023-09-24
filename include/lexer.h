@@ -2,34 +2,55 @@
 #include <vector>
 
 using namespace std;
+#define TOKEN_TYPE_LIST(E) \
+    E(IDENTIFIER)          \
+    E(NUMBER)              \
+    /* Keywords */         \
+    E(INT)                 \
+    E(VOID)                \
+    E(RETURN)              \
+    E(IF)                  \
+    E(ELSE)                \
+    E(WHILE)               \
+    E(FOR)                 \
+    /* Operators */        \
+    E(ASSIGN)              \
+    E(PLUS)                \
+    E(MINUS)               \
+    E(TIMES)               \
+    E(DIVIDE)              \
+    E(AND)                 \
+    E(BIT_AND)             \
+    E(OR)                  \
+    E(BIT_OR)              \
+    /* Comparisons */      \
+    E(EQUALS)              \
+    E(NEQUALS)             \
+    E(NOT)                 \
+    E(GT)                  \
+    E(LT)                  \
+    E(LTEQ)                \
+    E(GTEQ)                \
+    /* Punctuation */      \
+    E(SEMICOLON)           \
+    E(COMMA)               \
+    E(LPAREN)              \
+    E(RPAREN)              \
+    E(LCURLY)              \
+    E(RCURLY)              \
+    E(LSQUARE)             \
+    E(RSQUARE)
+
+#define TOKEN_TYPE_ENUM_DEF(name) name,
+#define TOKEN_TYPE_ENUM_CASE(name) \
+    case name:                     \
+        cout << #name;             \
+        break;
 
 enum TokenType
 {
-    IDENTIFIER,
-    NUMBER,
-    // Keywords
-    INT,
-    VOID,
-    RETURN,
-    IF,
-    ELSE,
-    WHILE,
-    FOR,
-    // Operators
-    EQUALS,
-    PLUS,
-    MINUS,
-    ASTERISK,
-    FSLASH,
-    // Punctioators
-    SEMICOLON,
-    COMMA,
-    LPAREN,
-    RPAREN,
-    LCURLY,
-    RCURLY,
-    LSQUARE,
-    RSQUARE
+
+    TOKEN_TYPE_LIST(TOKEN_TYPE_ENUM_DEF)
 };
 
 struct Token
@@ -43,6 +64,7 @@ class Lexer
 private:
     std::string m_code;
     int m_position = 0;
+    int m_line = 1;
 
 public:
     Lexer(const std::string &code);
