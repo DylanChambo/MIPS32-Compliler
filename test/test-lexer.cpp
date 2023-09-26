@@ -1,5 +1,5 @@
 #include "../lib/catch.hpp"
-#include "../include/lexer.h"
+#include "../include/lexer.hpp"
 #include <fstream>
 
 vector<Token> expectedTokens = {

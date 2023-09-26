@@ -1,3 +1,5 @@
+#pragma once
+
 #include <string>
 #include <vector>
 
@@ -73,7 +75,7 @@ private:
     int m_line = 1;
 
 public:
-    Lexer(const std::string &code);
+    Lexer(const string &code);
     vector<Token> tokenize();
 
 private:
