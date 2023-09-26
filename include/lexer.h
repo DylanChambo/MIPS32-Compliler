@@ -57,7 +57,12 @@ struct Token
 {
     TokenType type;
     std::string value;
+
+
 };
+
+bool operator==(const Token& lhs, const Token& rhs);
+
 
 class Lexer
 {

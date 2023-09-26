@@ -274,3 +274,10 @@ char Lexer::consume()
     m_char += 1;
     return m_code[m_position++];
 }
+
+// Function to compare two tokens
+
+bool operator==(const Token& lhs, const Token& rhs)
+{
+    return lhs.value == rhs.value && lhs.type == rhs.type;
+}
