@@ -11,9 +11,6 @@ private:
   string m_name;
   Type m_type;
 
-protected:
-  bool m_is_function = false;
-
 public:
   Declaration(){}; // default constructor
   Declaration(string name, Type type);
@@ -21,7 +18,6 @@ public:
   void name(string name);
   Type type();
   void type(Type type);
-  bool is_function();
 };
 
 class FunctionDeclaration : public Declaration {
@@ -29,15 +25,17 @@ private:
   vector<Declaration> m_parameters;
 
 public:
-  FunctionDeclaration(string name, Type type, vector<Declaration> parameters);
-  FunctionDeclaration(Declaration d, vector<Declaration> parameters);
+  FunctionDeclaration(string name, Type type, vector<Declaration> parameters,
+                      Block block = {});
+  FunctionDeclaration(Declaration d, vector<Declaration> parameters,
+                      Block block = {});
 };
 
-// class VariableDeclaration : public Declaration {
-// private:
-//   Expression m_expression;
+class VariableDeclaration : public Declaration {
+private:
+  Expression m_expression;
 
-// public:
-//   FunctionDeclaration(string name, Type type, Expression expression);
-//   FunctionDeclaration(Declaration d, Expression expression);
-// };
+public:
+  VariableDeclaration(string name, Type type, Expression expression);
+  VariableDeclaration(Declaration d, Expression expression);
+};

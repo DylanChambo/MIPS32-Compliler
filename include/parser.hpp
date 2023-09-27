@@ -2,6 +2,8 @@
 
 #include <vector>
 
+#include "declaration.hpp"
+#include "expression.hpp"
 #include "lexer.hpp"
 
 using namespace std;
@@ -17,10 +19,11 @@ private:
 
 public:
   Parser(vector<Token> tokens);
-  void parse();
+  Program parse();
 
 private:
   Declaration parse_declaration();
+  Expression Parser::parse_expression();
   Token peek(int offset = 0);
   Token consume();
   Token try_consume();

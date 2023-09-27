@@ -4,7 +4,7 @@
 
 Parser::Parser(vector<Token> tokens) { m_tokens = tokens; }
 
-void Parser::parse() {
+Program Parser::parse() {
   Program program;
   while (peek().type == TokenType::NONE) {
     Declaration declaration = parse_declaration();
@@ -91,6 +91,8 @@ Declaration Parser::parse_declaration() {
     return declaration;
   }
 }
+
+Expression Parser::parse_expression() { return {}; }
 
 Token Parser::peek(int offset) {
   if (m_index + offset >= m_tokens.size()) {
