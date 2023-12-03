@@ -16,4 +16,5 @@ public:
   void addDeclaration(Declaration declaration);
   vector<Statement> statements();
   void addStatement(Statement statement);
+  void print();
 };

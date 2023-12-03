@@ -5,12 +5,10 @@
 #include "declaration.hpp"
 #include "expression.hpp"
 #include "lexer.hpp"
+#include "program.hpp"
+
 
 using namespace std;
-
-struct Program {
-  vector<Declaration> declarations;
-};
 
 class Parser {
 private:

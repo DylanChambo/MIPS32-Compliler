@@ -1,5 +1,6 @@
 #include "parser.hpp"
 #include "declaration.hpp"
+#include "program.hpp"
 #include <iostream>
 
 Parser::Parser(vector<Token> tokens) { m_tokens = tokens; }
@@ -9,7 +10,7 @@ Program Parser::parse() {
   while (peek().type == TokenType::NONE) {
     Declaration declaration = parse_declaration();
     if (declaration.name() != "") {
-      program.declarations.push_back(declaration);
+      program.addDeclaration(declaration);
     } else {
       cerr << "Invalid declaration" << endl;
       exit(EXIT_FAILURE);

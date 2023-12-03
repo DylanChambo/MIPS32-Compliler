@@ -18,3 +18,12 @@ vector<Statement> Block::statements() { return m_statements; }
 void Block::addStatement(Statement statement) {
   m_statements.push_back(statement);
 }
+
+void Block::print() {
+  for (auto declaration : m_declarations) {
+    declaration.print();
+  }
+  for (auto statement : m_statements) {
+    statement.print();
+  }
+}

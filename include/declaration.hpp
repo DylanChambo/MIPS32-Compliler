@@ -1,7 +1,10 @@
 #pragma once
 
+#include "block.hpp"
+#include "expression.hpp"
 #include <string>
 #include <vector>
+
 using namespace std;
 
 enum Type { INT, VOID };
@@ -18,17 +21,21 @@ public:
   void name(string name);
   Type type();
   void type(Type type);
+  virtual void print();
 };
 
 class FunctionDeclaration : public Declaration {
 private:
   vector<Declaration> m_parameters;
+  Block m_block;
 
 public:
   FunctionDeclaration(string name, Type type, vector<Declaration> parameters,
                       Block block = {});
   FunctionDeclaration(Declaration d, vector<Declaration> parameters,
                       Block block = {});
+  void block(Block block);
+  void print();
 };
 
 class VariableDeclaration : public Declaration {
@@ -38,4 +45,5 @@ private:
 public:
   VariableDeclaration(string name, Type type, Expression expression);
   VariableDeclaration(Declaration d, Expression expression);
+  void print();
 };

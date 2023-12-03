@@ -1,5 +1,5 @@
-#include <lexer.hpp>
-
+#include "lexer.hpp"
+#include "parser.hpp"
 #include <cctype>
 #include <fstream>
 #include <iostream>
@@ -31,10 +31,24 @@ void compileFile(string filename) {
   vector<Token> tokens = lexer->tokenize();
 
   // Print the tokens
-  for (const Token &token : tokens) {
-    switch (token.type) { TOKEN_TYPE_LIST(TOKEN_TYPE_ENUM_CASE) }
-    if (token.value != "")
-      cout << ", Value: " << token.value;
-    cout << endl;
-  }
+  // for (const Token &token : tokens) {
+  //   switch (token.type) { TOKEN_TYPE_LIST(TOKEN_TYPE_ENUM_CASE) }
+  //   if (token.value != "")
+  //     cout << ", Value: " << token.value;
+  //   cout << endl;
+  // }
+
+  Program expected_output = {vector<Declaration>{FunctionDeclaration(
+      "main", Type::INT, vector<Declaration>{},
+      Block(vector<Declaration>{VariableDeclaration("x", Type::INT,
+                                                    Constant("0"))},
+            vector<Statement>{
+                IfStatement(
+                    Operation(TokenType::GT, Identifier("x"), Constant("0")),
+                    Block({},
+                          vector<Statement>{AssignmentStatement(
+                              "x", Operation(TokenType::MINUS, Identifier("x"),
+                                             Constant("1")))})),
+                ReturnStatement(Constant("0"))}))}};
+  expected_output.print();
 }
